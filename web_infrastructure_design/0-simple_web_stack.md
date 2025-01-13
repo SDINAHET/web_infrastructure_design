@@ -131,31 +131,25 @@ classDiagram
     ApplicationServer --> Database : Fetches/Stores Data
     WebServer --> UserBrowser : Sends Static Content
     ApplicationServer --> WebServer : Sends Dynamic Content
-    
-```
 
+```
+```plaintext
+Explanation concept:
 - **User Browser**: Sends requests and renders responses.
 - **DNS Server**: Maps domain names to IP addresses
 - **Web Server**: Directs static and dynamic requests appropriately.
 - **Application Server**: Processes code and interacts with the database.
 - **Database**: Provides persistent storage and retrieval of data.
 
-    Relation and interaction:
-
-    UserBrowser --> DNSServer : Sends Request
-
-    DNSServer --> Server : Resolves to IP 8.8.8.8
-
-    Server --> WebServer : Routes HTTP/HTTPS Requests
-
-    WebServer --> ApplicationServer : Forwards Dynamic Requests
-
-    ApplicationServer --> Database : Fetches/Stores Data
-
-    WebServer --> UserBrowser : Sends Static Content
-
-    ApplicationServer --> WebServer : Sends Dynamic Content
-
+# Relation and interaction:
+- UserBrowser --> DNSServer : Sends Request
+- DNSServer --> Server : Resolves to IP 8.8.8.8
+- Server --> WebServer : Routes HTTP/HTTPS Requests
+- WebServer --> ApplicationServer : Forwards Dynamic Requests
+- ApplicationServer --> Database : Fetches/Stores Data
+- WebServer --> UserBrowser : Sends Static Content
+- ApplicationServer --> WebServer : Sends Dynamic Content
+```
 
 ```plaintext
 classDiagram
