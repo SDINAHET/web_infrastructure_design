@@ -90,6 +90,50 @@ We will design a one-server infrastructure for the website `www.foobar.com` with
 |                +------------------+
 +----------------------------+
 ```
+
+```mermaid
+classDiagram
+    class UserBrowser {
+        +Request: www.foobar.com
+        +Render: Website content
+    }
+
+    class DNSServer {
+        +Resolve: Maps www.foobar.com
+        +Output: IP 8.8.8.8 (A Record)
+    }
+
+    class Server {
+        +IP: 8.8.8.8
+        +Host: All Components
+    }
+
+    class WebServer {
+        +Handles: HTTP/HTTPS requests
+        +Routes: Static and Dynamic Content
+    }
+
+    class ApplicationServer {
+        +Executes: Application Logic
+        +Processes: Dynamic Requests
+        +Communicates: Database
+    }
+
+    class Database {
+        +Stores: Persistent Data
+        +Provides: Query Results
+    }
+
+    UserBrowser --> DNSServer : Sends Request
+    DNSServer --> Server : Resolves to IP 8.8.8.8
+    Server --> WebServer : Routes HTTP/HTTPS Requests
+    WebServer --> ApplicationServer : Forwards Dynamic Requests
+    ApplicationServer --> Database : Fetches/Stores Data
+    WebServer --> UserBrowser : Sends Static Content
+    ApplicationServer --> WebServer : Sends Dynamic Content
+
+```
+
 - **User Browser**: Sends requests and renders responses.
 - **DNS Server**: Maps domain names to IP addresses.
 - **Web Server**: Directs static and dynamic requests appropriately.
@@ -100,47 +144,3 @@ We will design a one-server infrastructure for the website `www.foobar.com` with
 - **GitHub Repository**: `holbertonschool-system_engineering-devops`
 - **Directory**: `web_infrastructure_design`
 - **File**: `0-simple_web_stack`
-
-```mermaid
-classDiagram
-    A[User Browser] -->|Requests www.foobar.com| B[DNS Server]
-    B -->|Resolves to 8.8.8.8 (A Record)| C[Server: 8.8.8.8]
-    C --> D[Web Server (Nginx)]
-    D -->|Handles dynamic requests| E[Application Server]
-    E -->|Fetches/Stores data| F[Database (MySQL)]
-    D -->|Serves static content| G[User Browser]
-
-    %% Explanatory Annotations
-    subgraph Details
-        A[User Browser]: User initiates a request by typing the domain name.
-        B[DNS Server]: Maps the domain name to the server's IP address.
-        C[Server]: A single machine hosting all services.
-        D[Web Server (Nginx)]: Manages HTTP/HTTPS requests and serves static files.
-        E[Application Server]: Executes codebase logic and processes requests.
-        F[Database (MySQL)]: Stores and retrieves data for the application.
-        G[User Browser]: Receives the response and renders the website.
-    end
-```
-```mermaid
-flowchart LR
-    A[User Browser] -->|Requests www.foobar.com| B[DNS Server]
-    B -->|Resolves to 8.8.8.8 (A Record)| C[Server: 8.8.8.8]
-
-    subgraph Server_Components
-        C --> D[Web Server (Nginx)]
-        D -->|Routes Dynamic Requests| E[Application Server]
-        D -->|Serves Static Content| A
-
-        E -->|Fetches/Stores Data| F[Database (MySQL)]
-    end
-
-    %% Explanations
-    D:::web_server
-    E:::app_server
-    F:::database
-
-    classDef web_server fill:#f9f,stroke:#333,stroke-width:2px;
-    classDef app_server fill:#f93,stroke:#333,stroke-width:2px;
-    classDef database fill:#9cf,stroke:#333,stroke-width:2px;
-
-```
