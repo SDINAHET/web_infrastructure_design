@@ -132,6 +132,7 @@ classDiagram
     WebServer --> UserBrowser : Sends Static Content
     ApplicationServer --> WebServer : Sends Dynamic Content
 ```
+
 - **User Browser**: Sends requests and renders responses.
 - **DNS Server**: Maps domain names to IP addresses
 - **Web Server**: Directs static and dynamic requests appropriately.
@@ -146,7 +147,8 @@ classDiagram
     ApplicationServer --> Database : Fetches/Stores Data
     WebServer --> UserBrowser : Sends Static Content
     ApplicationServer --> WebServer : Sends Dynamic Content
-<!--
+
+
 ```plaintext
 classDiagram
     class UserBrowser {
@@ -188,7 +190,7 @@ classDiagram
     WebServer --> UserBrowser : Sends Static Content
     ApplicationServer --> WebServer : Sends Dynamic Content
 
-``` -->
+```
 
 
 
