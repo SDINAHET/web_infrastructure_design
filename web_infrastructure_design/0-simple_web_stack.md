@@ -90,8 +90,6 @@ We will design a one-server infrastructure for the website `www.foobar.com` with
 |                +------------------+
 +----------------------------+
 ```
-![alt text](t0v3.png)
-![alt text](task0.png)
 
 ```mermaid
 classDiagram
@@ -133,8 +131,13 @@ classDiagram
     ApplicationServer --> Database : Fetches/Stores Data
     WebServer --> UserBrowser : Sends Static Content
     ApplicationServer --> WebServer : Sends Dynamic Content
-
 ```
+- **User Browser**: Sends requests and renders responses.
+- **DNS Server**: Maps domain names to IP addresses.
+- **Web Server**: Directs static and dynamic requests appropriately.
+- **Application Server**: Processes code and interacts with the database.
+- **Database**: Provides persistent storage and retrieval of data.
+
 
 ```plaintext
 classDiagram
@@ -179,11 +182,8 @@ classDiagram
 
 ```
 
-- **User Browser**: Sends requests and renders responses.
-- **DNS Server**: Maps domain names to IP addresses.
-- **Web Server**: Directs static and dynamic requests appropriately.
-- **Application Server**: Processes code and interacts with the database.
-- **Database**: Provides persistent storage and retrieval of data.
+
+
 
 #### Repository
 - **GitHub Repository**: `holbertonschool-system_engineering-devops`
