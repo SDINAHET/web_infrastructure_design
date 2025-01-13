@@ -90,8 +90,51 @@ We will design a one-server infrastructure for the website `www.foobar.com` with
 |                +------------------+
 +----------------------------+
 ```
-
+![alt text](t0v3.png)
 ![alt text](task0.png)
+
+```mermaid
+classDiagram
+    class UserBrowser {
+        +Request: www.foobar.com
+        +Render: Website content
+    }
+
+    class DNSServer {
+        +Resolve: Maps www.foobar.com
+        +Output: IP 8.8.8.8 (A Record)
+    }
+
+    class Server {
+        +IP: 8.8.8.8
+        +Host: All Components
+    }
+
+    class WebServer {
+        +Handles: HTTP/HTTPS requests
+        +Routes: Static and Dynamic Content
+    }
+
+    class ApplicationServer {
+        +Executes: Application Logic
+        +Processes: Dynamic Requests
+        +Communicates: Database
+    }
+
+    class Database {
+        +Stores: Persistent Data
+        +Provides: Query Results
+    }
+
+    UserBrowser --> DNSServer : Sends Request
+    DNSServer --> Server : Resolves to IP 8.8.8.8
+    Server --> WebServer : Routes HTTP/HTTPS Requests
+    WebServer --> ApplicationServer : Forwards Dynamic Requests
+    ApplicationServer --> Database : Fetches/Stores Data
+    WebServer --> UserBrowser : Sends Static Content
+    ApplicationServer --> WebServer : Sends Dynamic Content
+
+```
 
 ```plaintext
 classDiagram
