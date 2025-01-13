@@ -91,7 +91,9 @@ We will design a one-server infrastructure for the website `www.foobar.com` with
 +----------------------------+
 ```
 
-```mermaid
+![alt text](task0.png)
+
+```plaintext
 classDiagram
     class UserBrowser {
         +Request: www.foobar.com
