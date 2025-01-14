@@ -108,6 +108,8 @@ We are designing a distributed web infrastructure that improves scalability, ava
 - **File:** `1-distributed_web_infrastructure`
 
 
+[task1](task1.mmd)
+
 ```mermaid
 
 graph TD

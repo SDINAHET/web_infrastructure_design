@@ -124,3 +124,4 @@ We are designing a secured and monitored web infrastructure for hosting the webs
 - **Directory:** `web_infrastructure_design`
 - **File:** `2-secured_and_monitored_web_infrastructure`
 
+[task2](task2.mmd)

@@ -90,7 +90,7 @@ We will design a one-server infrastructure for the website `www.foobar.com` with
 |                +------------------+
 +----------------------------+
 ```
-
+[task0](task0.mmd)
 
 ```mermaid
 
