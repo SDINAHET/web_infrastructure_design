@@ -91,6 +91,7 @@ We will design a one-server infrastructure for the website `www.foobar.com` with
 +----------------------------+
 ```
 
+
 ```mermaid
 classDiagram
     class UserBrowser {
@@ -133,6 +134,7 @@ classDiagram
     ApplicationServer --> WebServer : Sends Dynamic Content
 
 ```
+
 ```plaintext
 Explanation concept:
 - **User Browser**: Sends requests and renders responses.
