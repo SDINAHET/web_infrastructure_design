@@ -103,3 +103,27 @@ To scale up the existing web infrastructure for www.foobar.com, we will introduc
 - **File:** `3-scale_up`
 
 [task3](task3.mmd)
+
+```mermaid
+
+graph TD
+    %% User and Load Balancer
+    User[User Browser] -->|HTTPS| LB1[Load Balancer 1]
+    User[User Browser] -->|HTTPS| LB2[Load Balancer 2]
+
+    %% Load Balancer Cluster
+    LB1 -->|Active Traffic| WS1[Web Server]
+    LB2 -->|Backup Traffic| WS1[Web Server]
+
+    %% Web Server to Application Server
+    WS1 -->|Forward Requests| AS1[Application Server]
+
+    %% Application Server to Database
+    AS1 --> DB[Database (MySQL)]
+
+    %% Monitoring Clients
+    MC1[Monitoring Client - Web Server] --> WS1
+    MC2[Monitoring Client - App Server] --> AS1
+    MC3[Monitoring Client - Database] --> DB
+
+```

@@ -125,3 +125,32 @@ We are designing a secured and monitored web infrastructure for hosting the webs
 - **File:** `2-secured_and_monitored_web_infrastructure`
 
 [task2](task2.mmd)
+
+```mermaid
+
+graph TD
+    subgraph Internet
+        A[User Browser]
+    end
+
+    A -->|HTTPS| LB[Load Balancer]
+
+    subgraph Secured Infrastructure
+        LB -->|Secure Traffic| FW1[Firewall - App Server 1]
+        LB -->|Secure Traffic| FW2[Firewall - App Server 2]
+        LB -->|Secure Traffic| FW3[Firewall - Database Server]
+
+        FW1 --> AS1[Application Server 1]
+        FW2 --> AS2[Application Server 2]
+        FW3 --> DB[Database Server (MySQL)]
+    end
+
+    subgraph Monitoring
+        M1[Monitoring Agent - App Server 1] --> AS1
+        M2[Monitoring Agent - App Server 2] --> AS2
+        M3[Monitoring Agent - Database Server] --> DB
+    end
+
+    LB -. SSL -.> HTTPS[SSL Certificate]
+
+```
