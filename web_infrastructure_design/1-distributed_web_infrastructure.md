@@ -113,27 +113,27 @@ We are designing a distributed web infrastructure that improves scalability, ava
 ```mermaid
 
 graph TD
-    A[User Browser] -->|Request to www.foobar.com| B[Load Balancer (HAProxy)]
-    B -->|Distributes Traffic| C[Web Server (Nginx)]
+    A[User Browser] -->|Request to www.foobar.com| B[Load Balancer]
+    B -->|Distributes Traffic| C[Web Server]
     B -->|Distributes Traffic| D[Application Server]
 
     C -->|Serves Static Content| A
     C -->|Forwards Dynamic Requests| D
 
-    D -->|Executes Business Logic| E[Primary Database (MySQL)]
-    D -->|Reads Data| F[Replica Database (MySQL)]
+    D -->|Executes Business Logic| E[Primary Database Write]
+    D -->|Reads Data| F[Replica Database Read]
 
     %% Descriptions for Components
     %% Load Balancer
     subgraph LB[Load Balancer]
         direction TB
-        B[HAProxy]
+        B[Load Balancer]
     end
 
     %% Web Server
     subgraph WS[Web Server Layer]
         direction TB
-        C[Web Server (Nginx)]
+        C[Web Server]
     end
 
     %% Application Server
@@ -145,8 +145,8 @@ graph TD
     %% Database Cluster
     subgraph DB[Database Cluster]
         direction TB
-        E[Primary Database (Write)]
-        F[Replica Database (Read)]
+        E[Primary Database Write]
+        F[Replica Database Read]
     end
 
     %% Notes
@@ -160,5 +160,6 @@ graph TD
     class C webserver;
     class D appserver;
     class E,F database;
+
 
 ```
