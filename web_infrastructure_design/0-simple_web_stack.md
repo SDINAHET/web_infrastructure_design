@@ -93,6 +93,7 @@ We will design a one-server infrastructure for the website `www.foobar.com` with
 
 
 ```mermaid
+
 classDiagram
     class UserBrowser {
         +Request: www.foobar.com
