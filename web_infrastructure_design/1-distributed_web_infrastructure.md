@@ -107,3 +107,56 @@ We are designing a distributed web infrastructure that improves scalability, ava
 - **Directory:** `web_infrastructure_design`
 - **File:** `1-distributed_web_infrastructure`
 
+
+```mermaid
+
+graph TD
+    A[User Browser] -->|Request to www.foobar.com| B[Load Balancer (HAProxy)]
+    B -->|Distributes Traffic| C[Web Server (Nginx)]
+    B -->|Distributes Traffic| D[Application Server]
+
+    C -->|Serves Static Content| A
+    C -->|Forwards Dynamic Requests| D
+
+    D -->|Executes Business Logic| E[Primary Database (MySQL)]
+    D -->|Reads Data| F[Replica Database (MySQL)]
+
+    %% Descriptions for Components
+    %% Load Balancer
+    subgraph LB[Load Balancer]
+        direction TB
+        B[HAProxy]
+    end
+
+    %% Web Server
+    subgraph WS[Web Server Layer]
+        direction TB
+        C[Web Server (Nginx)]
+    end
+
+    %% Application Server
+    subgraph AS[Application Server Layer]
+        direction TB
+        D[Application Server]
+    end
+
+    %% Database Cluster
+    subgraph DB[Database Cluster]
+        direction TB
+        E[Primary Database (Write)]
+        F[Replica Database (Read)]
+    end
+
+    %% Notes
+    classDef loadbalancer fill:#ffaaa5,stroke:#333,stroke-width:2px;
+    classDef webserver fill:#ffd3b6,stroke:#333,stroke-width:2px;
+    classDef appserver fill:#d4a5a5,stroke:#333,stroke-width:2px;
+    classDef database fill:#6fc3df,stroke:#333,stroke-width:2px;
+
+    %% Assign Classes
+    class B loadbalancer;
+    class C webserver;
+    class D appserver;
+    class E,F database;
+
+```
