@@ -1,0 +1,21 @@
+sequenceDiagram
+    participant User as User
+    participant DNS as DNS (Domain Name Server)
+    participant Server as Server (8.8.8.8)
+    participant Nginx as Web Server (Nginx)
+    participant AppServer as Application Server
+    participant DB as Database (MySQL)
+
+    User->>DNS: Resolve www.foobar.com
+    DNS-->>User: Returns 8.8.8.8
+    User->>Server: HTTP Request to 8.8.8.8
+    Server->>Nginx: Passes request to web server
+    Nginx->>AppServer: Sends request to application server
+    AppServer->>DB: Queries or updates database
+    DB-->>AppServer: Returns data
+    AppServer-->>Nginx: Returns response
+    Nginx-->>User: Sends HTTP response to user
+
+    Note over Server: Single Point of Failure (SPOF)
+    Note over User, Server: Downtime during maintenance
+    Note over DNS: Cannot scale with high traffic

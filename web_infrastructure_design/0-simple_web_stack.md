@@ -90,7 +90,82 @@ We will design a one-server infrastructure for the website `www.foobar.com` with
 |                +------------------+
 +----------------------------+
 ```
+
+[task0](task0dg.mmd)
+![alt text](<task0_Capture d’écran 2025-01-15 234138.png>)
+
+```mermaid
+
+sequenceDiagram
+    participant User as User
+    participant DNS as DNS (Domain Name Server)
+    participant Server as Server (8.8.8.8)
+    participant Nginx as Web Server (Nginx)
+    participant AppServer as Application Server
+    participant DB as Database (MySQL)
+
+    User->>DNS: Resolve www.foobar.com
+    DNS-->>User: Returns 8.8.8.8
+    User->>Server: HTTP Request to 8.8.8.8
+    Server->>Nginx: Passes request to web server
+    Nginx->>AppServer: Sends request to application server
+    AppServer->>DB: Queries or updates database
+    DB-->>AppServer: Returns data
+    AppServer-->>Nginx: Returns response
+    Nginx-->>User: Sends HTTP response to user
+
+    Note over Server: Single Point of Failure (SPOF)
+    Note over User, Server: Downtime during maintenance
+    Note over DNS: Cannot scale with high traffic
+
+```
+
+[task0](task0v2.mmd)
+![alt text](<task0_graphtd_Capture d’écran 2025-01-16 003454.png>)
+
+
+```mermaid
+
+graph TD
+    %% User and DNS
+    User[User Browser] -->|HTTP/HTTPS Request| DNS[DNS Server]
+    DNS -->|Resolve Domain Name| MainServer[Server IP 8.8.8.8]
+
+    %% Server Components
+    subgraph MainServer["Server Hosting All Components"]
+        direction TB
+        WebServer[Nginx Web Server]
+        AppServer[Application Server]
+        Database[MySQL Database]
+        AppFiles[Application Files Code Base]
+    end
+
+    %% Web Server Interaction
+    WebServer -->|Serve Static Content| User
+    WebServer -->|Route Dynamic Requests| AppServer
+
+    %% Application Server Interaction
+    AppServer -->|Executes Application Logic| AppFiles
+    AppServer -->|Queries Data| Database
+    Database -->|Provides Results| AppServer
+
+    %% Response Flow
+    AppServer -->|Processed Data| WebServer
+    WebServer -->|Send Response| User
+```
+
+    %% Additional Descriptions
+    Note over User, DNS: User sends a request to www.foobar.com
+    Note over DNS, MainServer: DNS resolves the domain name to IP 8.8.8.8
+    Note over WebServer, AppServer: Nginx serves static content and routes dynamic requests
+    Note over Database: MySQL stores and retrieves persistent data
+    Note over MainServer: Single server hosts all components
+
+
+
+
 [task0](task0.mmd)
+
 
 ```mermaid
 

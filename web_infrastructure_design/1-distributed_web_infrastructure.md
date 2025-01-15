@@ -108,12 +108,52 @@ We are designing a distributed web infrastructure that improves scalability, ava
 - **File:** `1-distributed_web_infrastructure`
 
 
+[task1](task1dg.mmd)
+![alt text](<task1_Capture d’écran 2025-01-15 235253.png>)
+
+```mermaid
+
+sequenceDiagram
+    participant User as User
+    participant DNS as DNS (Domain Name Server)
+    participant LoadBalancer as Load Balancer (HAProxy)
+    participant Server1 as Web Server 1 (Nginx)
+    participant Server2 as Web Server 2 (Nginx)
+    participant AppServer1 as App Server 1
+    participant AppServer2 as App Server 2
+    participant DBPrimary as Database Primary (MySQL Master)
+    participant DBReplica as Database Replica (MySQL Slave)
+
+    User->>DNS: Resolve www.foobar.com
+    DNS-->>User: Returns Load Balancer IP
+    User->>LoadBalancer: HTTP Request to Load Balancer IP
+    LoadBalancer->>Server1: Distribute request (Round Robin / Least Connections)
+    alt Server1 is down
+        LoadBalancer->>Server2: Redirect request to Web Server 2
+    end
+    Server1->>AppServer1: Forward request to Application Server 1
+    AppServer1->>DBPrimary: Query database for data
+    DBPrimary->>AppServer1: Return data to Application Server
+    AppServer1-->>Server1: Return processed response
+    Server1-->>User: HTTP Response
+
+    Note over LoadBalancer: Distributes traffic between servers
+    Note over DBPrimary: Primary handles writes
+    Note over DBReplica: Replica handles read-only queries
+    Note over User: Issues: No HTTPS
+    Note over LoadBalancer: Issues: No monitoring
+    Note over DNS: Issues: No firewall
+
+
+```
+
 [task1](task1.mmd)
+![alt text](<task1_graphtd_Capture d’écran 2025-01-16 001910.png>)
 
 ```mermaid
 
 graph TD
-    A[User Browser] -->|Request to www.foobar.com| B[Load Balancer]
+    A[User Browser] -->|Request to wwwfoobar.com| B[Load Balancer]
     B -->|Distributes Traffic| C[Web Server]
     B -->|Distributes Traffic| D[Application Server]
 

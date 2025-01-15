@@ -102,28 +102,71 @@ To scale up the existing web infrastructure for www.foobar.com, we will introduc
 - **Directory:** `web_infrastructure_design`
 - **File:** `3-scale_up`
 
+[task3](task3dg.mmd)
+![alt text](<task3_Capture d’écran 2025-01-15 235638.png>)
+
+```mermaid
+
+sequenceDiagram
+    participant User as User
+    participant DNS as DNS (Domain Name Server)
+    participant LoadBalancer as Load Balancer (HAProxy)
+    participant Server1 as Web Server 1 (Nginx)
+    participant Server2 as Web Server 2 (Nginx)
+    participant AppServer1 as App Server 1
+    participant AppServer2 as App Server 2
+    participant DBPrimary as Database Primary (MySQL Master)
+    participant DBReplica as Database Replica (MySQL Slave)
+
+    User->>DNS: Resolve www.foobar.com
+    DNS-->>User: Returns Load Balancer IP
+    User->>LoadBalancer: HTTP Request to Load Balancer IP
+    LoadBalancer->>Server1: Distribute request (Round Robin / Least Connections)
+    alt Server1 is down
+        LoadBalancer->>Server2: Redirect request to Web Server 2
+    end
+    Server1->>AppServer1: Forward request to Application Server 1
+    AppServer1->>DBPrimary: Query database for data
+    DBPrimary->>AppServer1: Return data to Application Server
+    AppServer1-->>Server1: Return processed response
+    Server1-->>User: HTTP Response
+
+    Note over LoadBalancer: Distributes traffic between servers
+    Note over DBPrimary: Primary handles writes
+    Note over DBReplica: Replica handles read-only queries
+    Note over User: Issues: No HTTPS
+    Note over LoadBalancer: Issues: No monitoring
+    Note over DNS: Issues: No firewall
+
+
+
+```
+
 [task3](task3.mmd)
+![alt text](<task3_graphTD_Capture d’écran 2025-01-16 000636.png>)
 
 ```mermaid
 
 graph TD
     %% User and Load Balancer
     User[User Browser] -->|HTTPS| LB1[Load Balancer 1]
-    User[User Browser] -->|HTTPS| LB2[Load Balancer 2]
+    User -->|HTTPS| LB2[Load Balancer 2]
 
     %% Load Balancer Cluster
     LB1 -->|Active Traffic| WS1[Web Server]
-    LB2 -->|Backup Traffic| WS1[Web Server]
+    LB2 -->|Backup Traffic| WS1
 
     %% Web Server to Application Server
     WS1 -->|Forward Requests| AS1[Application Server]
 
     %% Application Server to Database
-    AS1 --> DB[Database (MySQL)]
+    AS1 -->|Queries| DB[Database (MySQL)]
 
     %% Monitoring Clients
-    MC1[Monitoring Client - Web Server] --> WS1
-    MC2[Monitoring Client - App Server] --> AS1
-    MC3[Monitoring Client - Database] --> DB
+    MC1[Monitoring Client - Web Server] -->|Monitors| WS1
+    MC2[Monitoring Client - App Server] -->|Monitors| AS1
+    MC3[Monitoring Client - Database] -->|Monitors| DB
+
+
 
 ```

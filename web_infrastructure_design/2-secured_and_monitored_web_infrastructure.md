@@ -124,33 +124,86 @@ We are designing a secured and monitored web infrastructure for hosting the webs
 - **Directory:** `web_infrastructure_design`
 - **File:** `2-secured_and_monitored_web_infrastructure`
 
+
+[task2](task2dg.mmd)
+![alt text](<task2_Capture d’écran 2025-01-15 235350.png>)
+```mermaid
+
+sequenceDiagram
+    participant User as User
+    participant DNS as DNS (Domain Name Server)
+    participant Firewall1 as Firewall (Inbound Traffic)
+    participant LoadBalancer as Load Balancer (HAProxy + SSL Termination)
+    participant Firewall2 as Firewall (Between Load Balancer and Servers)
+    participant Server1 as Web Server 1 (Nginx)
+    participant Server2 as Web Server 2 (Nginx)
+    participant Firewall3 as Firewall (Database Protection)
+    participant DBPrimary as Database Primary (MySQL Master)
+    participant DBReplica as Database Replica (MySQL Slave)
+    participant Monitoring as Monitoring Tools (Sumologic/Prometheus)
+
+    User->>DNS: Resolve www.foobar.com
+    DNS-->>User: Returns Load Balancer IP
+    User->>Firewall1: HTTPS Request to Load Balancer
+    Firewall1->>LoadBalancer: Allow HTTPS Traffic
+    LoadBalancer->>Firewall2: Forward Traffic
+    alt Server1 is available
+        Firewall2->>Server1: Pass request to Web Server 1
+    else Server1 is unavailable
+        Firewall2->>Server2: Pass request to Web Server 2
+    end
+    Server1->>DBPrimary: Query database for data
+    DBPrimary->>Firewall3: Protect database
+    DBPrimary->>DBReplica: Replicate data
+    DBPrimary-->>Server1: Return data
+    Server1-->>LoadBalancer: HTTP Response
+    LoadBalancer-->>User: Encrypted HTTPS Response
+
+    Monitoring->>LoadBalancer: Collect QPS metrics
+    Monitoring->>Server1: Collect logs and performance metrics
+    Monitoring->>DBPrimary: Monitor database queries
+    Monitoring->>DBReplica: Monitor replication status
+
+    Note over Firewall1, LoadBalancer: Protect against unauthorized inbound traffic
+    Note over LoadBalancer: SSL termination with HTTPS
+    Note over Monitoring: Tracks server health, QPS, and performance
+    Note over Firewall3, DBPrimary: Prevent unauthorized database access
+
+
+```
 [task2](task2.mmd)
+![alt text](<task2_graphtd_Capture d’écran 2025-01-16 001334.png>)
 
 ```mermaid
 
 graph TD
+    %% Internet Layer
     subgraph Internet
         A[User Browser]
     end
-
     A -->|HTTPS| LB[Load Balancer]
 
-    subgraph Secured Infrastructure
+    %% Secured Infrastructure
+    subgraph Secured_Infrastructure
         LB -->|Secure Traffic| FW1[Firewall - App Server 1]
         LB -->|Secure Traffic| FW2[Firewall - App Server 2]
         LB -->|Secure Traffic| FW3[Firewall - Database Server]
-
         FW1 --> AS1[Application Server 1]
         FW2 --> AS2[Application Server 2]
-        FW3 --> DB[Database Server (MySQL)]
+        FW3 --> DB[Database Server MySQL]
     end
 
+    %% Monitoring Layer
     subgraph Monitoring
-        M1[Monitoring Agent - App Server 1] --> AS1
-        M2[Monitoring Agent - App Server 2] --> AS2
-        M3[Monitoring Agent - Database Server] --> DB
+        M1[Monitoring Agent - App Server 1]
+        M2[Monitoring Agent - App Server 2]
+        M3[Monitoring Agent - Database Server]
+        M1 --> AS1
+        M2 --> AS2
+        M3 --> DB
     end
 
-    LB -. SSL -.> HTTPS[SSL Certificate]
+    %% SSL Certificate
+    LB -.->|SSL Termination| HTTPS[SSL Certificate]
 
 ```
