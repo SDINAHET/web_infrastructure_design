@@ -125,7 +125,7 @@ We are designing a secured and monitored web infrastructure for hosting the webs
 - **File:** `2-secured_and_monitored_web_infrastructure`
 
 
-[task2](task2dg.mmd)
+[task2](task2ds.mmd)
 ![alt text](<task2_Capture d’écran 2025-01-15 235350.png>)
 ```mermaid
 

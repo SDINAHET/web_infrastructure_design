@@ -108,7 +108,7 @@ We are designing a distributed web infrastructure that improves scalability, ava
 - **File:** `1-distributed_web_infrastructure`
 
 
-[task1](task1dg.mmd)
+[task1](task1ds.mmd)
 ![alt text](<task1_Capture d’écran 2025-01-15 235253.png>)
 
 ```mermaid

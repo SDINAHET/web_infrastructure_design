@@ -102,7 +102,7 @@ To scale up the existing web infrastructure for www.foobar.com, we will introduc
 - **Directory:** `web_infrastructure_design`
 - **File:** `3-scale_up`
 
-[task3](task3dg.mmd)
+[task3](task3ds.mmd)
 ![web_infrastructure_design/task3_gtd_Capture d’écran 2025-01-16 005302.png](<task3_gtd_Capture d’écran 2025-01-16 005302.png>)
 
 ```mermaid

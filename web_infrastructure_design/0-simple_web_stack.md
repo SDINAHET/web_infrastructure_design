@@ -91,7 +91,7 @@ We will design a one-server infrastructure for the website `www.foobar.com` with
 +----------------------------+
 ```
 
-[task0](task0dg.mmd)
+[task0](task0ds.mmd)
 ![alt text](<task0_Capture d’écran 2025-01-15 234138.png>)
 
 ```mermaid
