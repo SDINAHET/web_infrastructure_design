@@ -157,6 +157,7 @@ sequenceDiagram
 ```
 
 [task3](task3.mmd)
+![alt text](<task3v2_Capture d’écran 2025-01-16 011031.png>)
 ![alt text](<task3_graphTD_Capture d’écran 2025-01-16 000636.png>)
 
 ```mermaid
@@ -174,13 +175,12 @@ graph TD
     WS1 -->|Forward Requests| AS1[Application Server]
 
     %% Application Server to Database
-    AS1 -->|Queries| DB[Database (MySQL)]
+    AS1 -->|Queries| DB[Database MySQL]
 
     %% Monitoring Clients
     MC1[Monitoring Client - Web Server] -->|Monitors| WS1
     MC2[Monitoring Client - App Server] -->|Monitors| AS1
     MC3[Monitoring Client - Database] -->|Monitors| DB
-
 
 
 ```
