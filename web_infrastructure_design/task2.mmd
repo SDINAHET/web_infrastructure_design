@@ -1,24 +1,29 @@
 graph TD
+    %% Internet Layer
     subgraph Internet
         A[User Browser]
     end
-
     A -->|HTTPS| LB[Load Balancer]
 
-    subgraph Secured Infrastructure
+    %% Secured Infrastructure
+    subgraph Secured_Infrastructure
         LB -->|Secure Traffic| FW1[Firewall - App Server 1]
         LB -->|Secure Traffic| FW2[Firewall - App Server 2]
         LB -->|Secure Traffic| FW3[Firewall - Database Server]
-
         FW1 --> AS1[Application Server 1]
         FW2 --> AS2[Application Server 2]
-        FW3 --> DB[Database Server (MySQL)]
+        FW3 --> DB[Database Server MySQL]
     end
 
+    %% Monitoring Layer
     subgraph Monitoring
-        M1[Monitoring Agent - App Server 1] --> AS1
-        M2[Monitoring Agent - App Server 2] --> AS2
-        M3[Monitoring Agent - Database Server] --> DB
+        M1[Monitoring Agent - App Server 1]
+        M2[Monitoring Agent - App Server 2]
+        M3[Monitoring Agent - Database Server]
+        M1 --> AS1
+        M2 --> AS2
+        M3 --> DB
     end
 
-    LB -. SSL -.> HTTPS[SSL Certificate]
+    %% SSL Certificate
+    LB -.->|SSL Termination| HTTPS[SSL Certificate]
