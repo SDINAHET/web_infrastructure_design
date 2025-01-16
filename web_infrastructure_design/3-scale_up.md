@@ -103,40 +103,54 @@ To scale up the existing web infrastructure for www.foobar.com, we will introduc
 - **File:** `3-scale_up`
 
 [task3](task3dg.mmd)
-![alt text](<task3_Capture d’écran 2025-01-15 235638.png>)
+![web_infrastructure_design/task3_gtd_Capture d’écran 2025-01-16 005302.png](<task3_gtd_Capture d’écran 2025-01-16 005302.png>)
 
 ```mermaid
 
 sequenceDiagram
-    participant User as User
-    participant DNS as DNS (Domain Name Server)
-    participant LoadBalancer as Load Balancer (HAProxy)
-    participant Server1 as Web Server 1 (Nginx)
-    participant Server2 as Web Server 2 (Nginx)
-    participant AppServer1 as App Server 1
-    participant AppServer2 as App Server 2
-    participant DBPrimary as Database Primary (MySQL Master)
-    participant DBReplica as Database Replica (MySQL Slave)
+    participant User as User Browser
+    participant DNS as DNS Server
+    participant LBCluster as Load Balancer Cluster
+    participant Web1 as Web Server 1 (Nginx)
+    participant Web2 as Web Server 2 (Nginx)
+    participant App1 as Application Server 1
+    participant App2 as Application Server 2
+    participant DBPrimary as Database Primary (MySQL)
+    participant DBReplica as Database Replica (MySQL)
+    participant Monitoring as Monitoring Tools
 
+    %% User interaction with DNS and Load Balancer
     User->>DNS: Resolve www.foobar.com
-    DNS-->>User: Returns Load Balancer IP
-    User->>LoadBalancer: HTTP Request to Load Balancer IP
-    LoadBalancer->>Server1: Distribute request (Round Robin / Least Connections)
-    alt Server1 is down
-        LoadBalancer->>Server2: Redirect request to Web Server 2
-    end
-    Server1->>AppServer1: Forward request to Application Server 1
-    AppServer1->>DBPrimary: Query database for data
-    DBPrimary->>AppServer1: Return data to Application Server
-    AppServer1-->>Server1: Return processed response
-    Server1-->>User: HTTP Response
+    DNS-->>User: Returns IP of Load Balancer
+    User->>LBCluster: HTTPS Request to Load Balancer Cluster
+    LBCluster->>Web1: Distributes Request (Active)
+    LBCluster->>Web2: Distributes Request (Backup)
 
-    Note over LoadBalancer: Distributes traffic between servers
-    Note over DBPrimary: Primary handles writes
-    Note over DBReplica: Replica handles read-only queries
-    Note over User: Issues: No HTTPS
-    Note over LoadBalancer: Issues: No monitoring
-    Note over DNS: Issues: No firewall
+    %% Web Server interaction with Application Servers
+    Web1->>App1: Forward Request for Dynamic Content
+    Web2->>App2: Forward Request for Dynamic Content
+
+    %% Application Server interaction with Database
+    App1->>DBPrimary: Query/Write Data
+    App2->>DBPrimary: Query/Write Data
+    DBPrimary->>DBReplica: Replicate Data
+    DBPrimary-->>App1: Return Query Results
+    DBPrimary-->>App2: Return Query Results
+
+    %% Response Flow
+    App1-->>Web1: Return Processed Data
+    App2-->>Web2: Return Processed Data
+    Web1-->>User: Send Response (Static/Dynamic Content)
+    Web2-->>User: Send Response (Static/Dynamic Content)
+
+    %% Monitoring Interaction
+    Monitoring->>Web1: Monitor Performance Metrics
+    Monitoring->>Web2: Monitor Performance Metrics
+    Monitoring->>App1: Monitor Performance Metrics
+    Monitoring->>App2: Monitor Performance Metrics
+    Monitoring->>DBPrimary: Monitor Query Performance
+    Monitoring->>DBReplica: Monitor Replication Status
+
 
 
 
